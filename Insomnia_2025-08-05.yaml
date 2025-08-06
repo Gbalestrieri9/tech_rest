@@ -1,0 +1,593 @@
+type: collection.insomnia.rest/5.0
+name: Tech_rest
+meta:
+  id: wrk_2c723150e21348049d70e16a31900f3b
+  created: 1752933612608
+  modified: 1754445764340
+  description: ""
+collection:
+  - name: Cliente
+    meta:
+      id: fld_85d73665c2424692a08e6da3089acd3c
+      created: 1753051275545
+      modified: 1753051275545
+      sortKey: -1753051275545
+      description: ""
+    children:
+      - url: " http://localhost:8081/clientes"
+        name: Listar clientes
+        meta:
+          id: req_3f8645fae21f4c799149b32be382c34b
+          created: 1752933650030
+          modified: 1754441968212
+          isPrivate: false
+          description: ""
+          sortKey: -1753051287411
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: " http://localhost:8081/clientes"
+        name: Criar cliente
+        meta:
+          id: req_e78fc7dc9e2c410597f57a2399866b89
+          created: 1752962613551
+          modified: 1754441959334
+          isPrivate: false
+          description: ""
+          sortKey: -1753051287461
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Fulano da Silva",
+              "cpf": "390.533.447-05",
+              "dataNascimento": "1990-01-01",
+              "enderecos": [
+                {
+                  "logradouro": "Rua A",
+                  "numero": "10",
+                  "complemento": "Ap 12",
+                  "cep": "01001000",
+                  "cidade": "São Paulo",
+                  "uf": "SP"
+                }
+              ]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/clientes/1
+        name: Buscar cliente por ID
+        meta:
+          id: req_11872d1f9d154992890760748efc05e9
+          created: 1752962682582
+          modified: 1754441984153
+          isPrivate: false
+          description: ""
+          sortKey: -1753051287386
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/clientes/1
+        name: Atualizar Cliente
+        meta:
+          id: req_73317023a342445994e1dbc72aaa9963
+          created: 1752962707999
+          modified: 1754441993929
+          isPrivate: false
+          description: ""
+          sortKey: -1753051287261
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Fulano Atualizado",
+              "cpf": "000.000.000-00",
+              "dataNascimento": "1990-01-01",
+              "enderecos": [
+                {
+                  "logradouro": "Rua B",
+                  "numero": "200",
+                  "complemento": "Casa",
+                  "cep": "02020000",
+                  "cidade": "São Paulo",
+                  "uf": "SP"
+                }
+              ]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/clientes/1
+        name: Deletar cliente
+        meta:
+          id: req_792490014d4f405dacc2f848fa0feddd
+          created: 1752962764023
+          modified: 1754442005163
+          isPrivate: false
+          description: ""
+          sortKey: -1753051287161
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: produto
+    meta:
+      id: fld_983a8daab5b441979b85a8b967142ac3
+      created: 1753051324018
+      modified: 1753051324018
+      sortKey: -1753051324018
+      description: ""
+    children:
+      - url: http://localhost:8082/produtos
+        name: Lista todos os produtos
+        meta:
+          id: req_c0e7d537b26d42edbcce693f45b6ccc6
+          created: 1753051331398
+          modified: 1753051768982
+          isPrivate: false
+          description: ""
+          sortKey: -1753051760851
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8082/produtos
+        name: Cria um novo produto
+        meta:
+          id: req_39504f6a913e4cbfb301b453f0345706
+          created: 1753051421977
+          modified: 1753051760987
+          isPrivate: false
+          description: ""
+          sortKey: -1753051760951
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Hambúrguer Clássico",
+              "descricao": "Pão, carne, queijo",
+              "preco": 25.90,
+              "categoria": "LANCHE",
+              "ativo": true,
+              "sku": null
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8082/produtos/1
+        name: Buscar por id
+        meta:
+          id: req_37791f275f1647ab9be62312b062ad64
+          created: 1753051690646
+          modified: 1753051774863
+          isPrivate: false
+          description: ""
+          sortKey: -1753051760751
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8082/produtos/sku/f0620fb0-f4b2-4d3e-9eff-1f6276f585fc
+        name: Busca um produto pelo seu SKU
+        meta:
+          id: req_8affa744c1a042e9a451d5c9d7c8c662
+          created: 1753051818752
+          modified: 1753051906797
+          isPrivate: false
+          description: ""
+          sortKey: -1753051760651
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8082/produtos/1
+        name: Atualiza dados do produto
+        meta:
+          id: req_355f8793af344acc9397b97c5ac78d1d
+          created: 1753051923362
+          modified: 1753051978488
+          isPrivate: false
+          description: ""
+          sortKey: -1753051760551
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Hambúrguer Duplo",
+              "descricao": "Pão, 2 carnes, queijo",
+              "preco": 32.50,
+              "categoria": "LANCHE",
+              "ativo": true,
+              "sku": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8082/produtos/1
+        name: Remove o produto
+        meta:
+          id: req_4028a7a6c4384612a51806762f97edc7
+          created: 1753051998892
+          modified: 1753052027117
+          isPrivate: false
+          description: ""
+          sortKey: -1753051760451
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Estoque
+    meta:
+      id: fld_b13b041d6c83452c8324de6f432f43c3
+      created: 1753139560714
+      modified: 1753139560714
+      sortKey: -1753139560714
+      description: ""
+    children:
+      - url: http://localhost:8083/estoque
+        name: Listar todos os estoques
+        meta:
+          id: req_9f51fa2be76b4b64a6ef19393e534793
+          created: 1753139751813
+          modified: 1754442021067
+          isPrivate: false
+          description: ""
+          sortKey: -1753140342736
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8083/estoque
+        name: Criar estoque para um produto
+        meta:
+          id: req_1b415311c1b543bda14fc32fe21e2e1e
+          created: 1753139798238
+          modified: 1754442017256
+          isPrivate: false
+          description: ""
+          sortKey: -1753140342786
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "produtoId": 2,
+              "quantidade": 50
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8083/estoque/1
+        name: Buscar estoque de um produto
+        meta:
+          id: req_6063f6e268134e988db40c878eb85b83
+          created: 1753140046768
+          modified: 1754442029296
+          isPrivate: false
+          description: ""
+          sortKey: -1753140342723.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8083/estoque/1
+        name: Atualizar quantidade
+        meta:
+          id: req_d30df17384684e0fbf04a951dcec78e1
+          created: 1753140167129
+          modified: 1754442026411
+          isPrivate: false
+          description: ""
+          sortKey: -1753140342711
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "produtoId": 1,
+              "quantidade": 80
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8083/estoque/1/reservar
+        name: Reservar (decrementar)
+        meta:
+          id: req_46ce4d21d93548cbb1cb240417b0cab7
+          created: 1753140342686
+          modified: 1753140439816
+          isPrivate: false
+          description: ""
+          sortKey: -1753140342686
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "quantidade": 5
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Pedido
+    meta:
+      id: fld_7dd6dadf93f94786a98b215c64d2680b
+      created: 1753564391528
+      modified: 1753564391528
+      sortKey: -1753564391528
+      description: ""
+    children:
+      - url: http://localhost:8084/pedidos
+        name: Listar pedidos
+        meta:
+          id: req_c0cef585fd5c465cba2c64e7edd497e5
+          created: 1753564523586
+          modified: 1753570355719
+          isPrivate: false
+          description: ""
+          sortKey: -1753564572348
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8084/pedidos
+        name: Criar pedido
+        meta:
+          id: req_eb03726fbcd34251acf075febf08bdc4
+          created: 1753564572048
+          modified: 1753570363600
+          isPrivate: false
+          description: ""
+          sortKey: -1753564572448
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+               "clienteId":1,
+               "itens":[
+                  {
+                     "produtoId":1,
+                     "quantidade":2
+                  },
+                  {
+                     "produtoId":2,
+                     "quantidade":1
+                  }
+               ]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        scripts:
+          preRequest: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8084/pedidos/1
+        name: Buscar por ID
+        meta:
+          id: req_0355b1c6f4ef43459d6147e42a69f6e8
+          created: 1753570318887
+          modified: 1753570350763
+          isPrivate: false
+          description: ""
+          sortKey: -1753564572148
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: pagamento
+    meta:
+      id: fld_b2ab043db6bd4f558301207615fde60f
+      created: 1753747164307
+      modified: 1753747164307
+      sortKey: -1753747164307
+      description: ""
+    children:
+      - url: http://localhost:8085/pagamentos/4
+        name: Consultar status de pagamento
+        meta:
+          id: req_7e3d335bfbf04c82a40eabd8eb963404
+          created: 1753747182206
+          modified: 1754441901222
+          isPrivate: false
+          description: ""
+          sortKey: -1753747182206
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_7f7f8ae93dcd04c9dd5f190fc0c7b28cfe52e0b2
+    created: 1752933612616
+    modified: 1752933612616
+environments:
+  name: Base Environment
+  meta:
+    id: env_7f7f8ae93dcd04c9dd5f190fc0c7b28cfe52e0b2
+    created: 1752933612613
+    modified: 1752933612613
+    isPrivate: false

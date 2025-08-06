@@ -1,0 +1,223 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: [ "CMD-SHELL", "rabbitmq-diagnostics status || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  db-cliente:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: cliente_db
+      POSTGRES_USER: cliente
+      POSTGRES_PASSWORD: cliente
+    ports:
+      - "5432:5432"
+    volumes:
+      - cliente_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U cliente -d cliente_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cliente-service:
+    build:
+      context: ./cliente
+      dockerfile: Dockerfile
+    image: cliente-service:latest
+    depends_on:
+      db-cliente:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-cliente:5432/cliente_db
+      SPRING_DATASOURCE_USERNAME: cliente
+      SPRING_DATASOURCE_PASSWORD: cliente
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: [ "CMD-SHELL","wget -qO- http://localhost:8081/clientes || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  db-produto:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: produto_db
+      POSTGRES_USER: produto
+      POSTGRES_PASSWORD: produto
+    ports:
+      - "5433:5432"
+    volumes:
+      - produto_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U produto -d produto_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  produto-service:
+    build:
+      context: ./produto
+      dockerfile: Dockerfile
+    image: produto-service:latest
+    depends_on:
+      db-produto:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-produto:5432/produto_db
+      SPRING_DATASOURCE_USERNAME: produto
+      SPRING_DATASOURCE_PASSWORD: produto
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8082:8082"
+    healthcheck:
+      test: [ "CMD-SHELL","wget -qO- http://localhost:8082/produtos || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  db-estoque:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: estoque_db
+      POSTGRES_USER: estoque
+      POSTGRES_PASSWORD: estoque
+    ports:
+      - "5443:5432"
+    volumes:
+      - estoque_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U estoque -d estoque_db" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  estoque-service:
+    build:
+      context: ./estoque
+      dockerfile: Dockerfile
+    container_name: estoque-service
+    depends_on:
+      db-estoque:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-estoque:5432/estoque_db
+      SPRING_DATASOURCE_USERNAME: estoque
+      SPRING_DATASOURCE_PASSWORD: estoque
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8083:8083"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8083/estoque || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  db-pedido:
+    image: postgres:16
+    container_name: db-pedido
+    environment:
+      POSTGRES_DB: pedido_db
+      POSTGRES_USER: pedido
+      POSTGRES_PASSWORD: pedido
+    ports:
+      - "5444:5432"
+    volumes:
+      - pedido_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U pedido -d pedido_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pedido-service:
+    build:
+      context: ./pedido
+      dockerfile: Dockerfile
+    image: pedido-service:latest
+    container_name: pedido-service
+    depends_on:
+      rabbitmq:
+        condition: service_started
+      db-pedido:
+        condition: service_healthy
+      cliente-service:
+        condition: service_healthy
+      produto-service:
+        condition: service_healthy
+      estoque-service:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-pedido:5432/pedido_db
+      SPRING_DATASOURCE_USERNAME: pedido
+      SPRING_DATASOURCE_PASSWORD: pedido
+      SPRING_PROFILES_ACTIVE: docker
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8084:8084"
+    healthcheck:
+      test: [ "CMD-SHELL","curl -f http://localhost:8084/pedidos || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  db-pagamento:
+    image: postgres:16
+    container_name: db-pagamento
+    environment:
+      POSTGRES_DB: pagamento_db
+      POSTGRES_USER: pagamento
+      POSTGRES_PASSWORD: pagamento
+    ports:
+      - "5445:5432"
+    volumes:
+      - pagamento_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U pagamento -d pagamento_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pagamento-service:
+    build:
+      context: ./pagamento
+      dockerfile: Dockerfile
+    image: pagamento-service:latest
+    container_name: pagamento-service
+    depends_on:
+      rabbitmq:
+        condition: service_started
+      db-pagamento:
+        condition: service_healthy
+      pedido-service:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-pagamento:5432/pagamento_db
+      SPRING_DATASOURCE_USERNAME: pagamento
+      SPRING_DATASOURCE_PASSWORD: pagamento
+      SPRING_PROFILES_ACTIVE: docker
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8085:8085"
+    healthcheck:
+      test: [ "CMD-SHELL","curl -f http://localhost:8085/pagamentos/1 || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  cliente_pgdata:
+  produto_pgdata:
+  estoque_pgdata:
+  pedido_pgdata:
+  pagamento_pgdata:
